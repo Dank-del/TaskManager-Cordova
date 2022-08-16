@@ -1,0 +1,96 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/bootstrap/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="css/styles.css">
+    <title>Task List</title>
+    <script>
+        // jquery add event listener for when page loads
+        $(document).ready(function () {
+            // jquery add event listener for when button is clicked
+            console.log('ok');
+            $('#logoutBtn').click(function() {
+                alert('You have been logged out');
+                localStorage.removeItem('username');
+                localStorage.removeItem('password');
+                window.location.href = "./login.html";
+            })
+            $.post('https://task-manager-api.sayan.org.in/alltasks',
+                {
+                    "username": "sayan",
+                    "password": "uwu"
+                }, function (data, textStatus) {
+                    if (data !== null || data !== undefined) {
+                        data.map((task) => {
+                            // console.log(task);
+                            $("#cards-container").append(
+                                "<div className='col'>" +
+                                "<div class='card'>" +
+                                "<div class='card-body p-4'>" +
+                                `<h5 class='card-title'>Task for ${task.assignedToUsername}</h5>` +
+                                `<p class='card-text'>${task.textContent}</p>` +
+                                "<a href='#' class='btn btn-primary'>Go to task</a>" +
+                                "</div>" +
+                                "</div>" +
+                                "</div>"
+                            );
+                        });
+                    }
+                    //data contains the JSON object
+                    //textStatus contains the status: success, error, etc
+                }, "json");
+        });
+    </script>
+</head>
+
+<body>
+    <nav class="navbar navbar-dark navbar-expand-md bg-dark py-3" style="position: sticky; top: 0px; z-Index: 1">
+        <div class="container">
+            <div class="navbar-brand d-flex align-items-center">
+                <span
+                    class="bs-icon-sm bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center me-2 bs-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor"
+                        viewBox="0 0 16 16" class="bi bi-list-task">
+                        <path fillRule="evenodd"
+                            d="M2 2.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5V3a.5.5 0 0 0-.5-.5H2zM3 3H2v1h1V3z" />
+                        <path
+                            d="M5 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM5.5 7a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9zm0 4a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9z" />
+                        <path fillRule="evenodd"
+                            d="M1.5 7a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5V7zM2 7h1v1H2V7zm0 3.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5H2zm1 .5H2v1h1v-1z" />
+                    </svg>
+                </span>
+                <span>Task List</span>
+            </div>
+            <div class="button-group ">
+                <button name="button" value="create" class="btn btn-primary">Create</button>
+                <button name="button" id="logoutBtn" class="btn btn-secondary">Logout</button>
+            </div>
+
+            <div class="collapse navbar-collapse flex-grow-0 order-md-first" id="navcol-6">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item" />
+                    <li class="nav-item" />
+                </ul>
+                <div class="d-md-none my-2">
+                    <button class="btn btn-light me-2" type="button">
+                        Button
+                    </button>
+                    <button class="btn btn-primary" type="button">
+                        Button
+                    </button>
+                </div>
+            </div>
+            <div class="d-none d-md-block" />
+        </div>
+    </nav>
+    <div class="container py-4 py-xl-5">
+        <div class="row gy-4 row-cols-1 row-cols-md-2 row-cols-xl-3" id="cards-container">
+        </div>
+    </div>
+</body>
+
+</html>
