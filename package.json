@@ -5,7 +5,7 @@
   "description": "A sample Apache Cordova application that responds to the deviceready event.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "watch 'cordova run browser' www"
   },
   "keywords": [
     "ecosystem:cordova"
@@ -15,7 +15,8 @@
   "devDependencies": {
     "cordova-android": "^10.1.2",
     "cordova-browser": "^6.0.0",
-    "cordova-plugin-camera": "github:apache/cordova-plugin-camera"
+    "cordova-plugin-camera": "github:apache/cordova-plugin-camera",
+    "watch": "^1.0.2"
   },
   "cordova": {
     "platforms": [
