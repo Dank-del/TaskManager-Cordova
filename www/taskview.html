@@ -20,7 +20,11 @@
             function addCommentCards(commentIds) {
                 commentIds.map(
                     (commentId) => {
-                        $.post('http://localhost:4000', {}, function(data, textStatus) {
+                        $.post('https://tskman.sayan.org.in/getcomment', {
+                            "username": "sayan",
+                            "password": "uwu",
+                            "commentId": commentId
+                        }, function(data, textStatus) {
                             $('#cardSets').append(
                             `<div class="col-sm-6">
                                 <div class="card">
@@ -34,7 +38,8 @@
                                         </blockquote>
                                     </div>
                                 </div>
-                            </div>`);
+                            </div>
+                            <br>`);
                         })
                     }
                 );
@@ -42,7 +47,7 @@
 
             var taskId = $.urlParam('id');
             $.post(
-                'http://localhost:4000/task',
+                'https://tskman.sayan.org.in/task',
                 {
                     "username": "sayan",
                     "password": "uwu",
@@ -55,6 +60,7 @@
                         $("#task-assignee").text(data.assignedToUsername);
                         $("#task-assigner").text(data.creatorUsername);
                         $('#task-text-content').text(data.textContent);
+                        addCommentCards(data.commentIds);
                     } else {
                         window.location.href('./tasklist.html');
                     }
@@ -65,7 +71,7 @@
             );
             fetch(`https://source.unsplash.com/1600x900/?work`).then((res) => {
                 $('#imgcard').prepend(
-                    `<img src=${res.url}>`
+                    `<img src=${res.url} style='height: 100%; width: 100%; object-fit: contain'>`
                 )
             })
             var pictureSource;   // picture source
@@ -92,7 +98,7 @@
             }
             // Called if something bad happens.
             function onFail(message) {
-                //alert('Failed because: ' + message);
+                alert('Failed because: ' + message);
                 localStorage.ims = 0;
             }
 
@@ -101,7 +107,7 @@
             })
 
             function submitComment(text, img) {
-                $.post('http://localhost:4000/addcomment', {
+                $.post('https://tskman.sayan.org.in/addcomment', {
                     "username": "sayan",
                     "password": "uwu",
                     "taskId": taskId,
@@ -150,36 +156,6 @@
         </div>
 
         <div class="row" style="padding-bottom: 20px; padding-top: 20px;" id="cardSets">
-            <div class="col-sm-6">
-                <div class="card">
-                    <div class="card-header">Comment</div>
-                    <div class="card-body">
-                        <blockquote class="blockquote mb-0">
-                            <p>A well-known quote, contained in a blockquote element.</p>
-                            <footer class="blockquote-footer">
-                                Someone famous in <cite title="Source Title">Source Title</cite>
-                            </footer>
-                        </blockquote>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <div class="card">
-                    <div class="card-header">Comment</div>
-                    <div class="card-body">
-                        <!--
-                            <img style='height: 100%; width: 100%; object-fit: contain' src="">
-                        -->
-                        <blockquote class="blockquote mb-0">
-                            <p>A well-known quote, contained in a blockquote element.</p>
-                            <footer class="blockquote-footer">
-                                Mayukh in 5:30 PM
-                            </footer>
-                        </blockquote>
-                    </div>
-                </div>
-            </div>
-
         </div>
 
         <div>
