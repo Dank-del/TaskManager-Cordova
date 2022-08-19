@@ -13,6 +13,9 @@
     <script>
         $(document).ready(function () {
             $.urlParam = function (name) {
+                if (name === "" || name === null) {
+                    return null;
+                }
                 var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
                 return results[1] || 0;
             }
@@ -24,9 +27,9 @@
                             "username": "sayan",
                             "password": "uwu",
                             "commentId": commentId
-                        }, function(data, textStatus) {
+                        }, function (data, textStatus) {
                             $('#cardSets').append(
-                            `<div class="col-sm-6">
+                                `<div class="col-sm-6">
                                 <div class="card">
                                     <div class="card-header">Comment</div>
                                     <div class="card-body">
@@ -46,6 +49,10 @@
             }
 
             var taskId = $.urlParam('id');
+            if (taskId === null) {
+                window.location.href = "./tasklist.html";
+            }
+
             $.post(
                 'https://tskman.sayan.org.in/task',
                 {
@@ -56,6 +63,16 @@
                 function (data, textStatus) {
                     if (data !== null || data !== undefined) {
                         console.log(data);
+                        // data.IsDone = true;
+                        if (data.IsDone === true) {
+                            $('#cardsBody').prepend(
+                                `
+                                <div class="alert alert-success" role="alert">
+                                    This task was marked as complete
+                                </div>
+                                `
+                            )
+                        }
                         $("#task-content").text(data.textContent);
                         $("#task-assignee").text(data.assignedToUsername);
                         $("#task-assigner").text(data.creatorUsername);
@@ -111,7 +128,7 @@
                     "username": "sayan",
                     "password": "uwu",
                     "taskId": taskId,
-                    "textContent": text,
+                    "comment": text,
                     "image": img
                 }, function (data, textStatus) {
                     if (textStatus == 'success') {
@@ -140,8 +157,7 @@
         </div>
     </nav>
 
-    <div class="p-3 m-0 border-0 bd-example">
-
+    <div class="p-3 m-0 border-0 bd-example" id="cardsBody">
         <div class="card" id="imgcard">
 
             <div class="card-body">
