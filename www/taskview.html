@@ -4,11 +4,10 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="https://getbootstrap.com/docs/5.2/assets/css/docs.css" rel="stylesheet" />
+    <link href="./css/bootstrap.min.css" rel="stylesheet" />
     <title>Task View</title>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="./js/bootstrap.bundle.min.js"></script>
+    <script src="./js/jQuery.js"></script>
     <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
     <script>
         $(document).ready(function () {
@@ -106,7 +105,10 @@
                     //textStatus contains the status: success, error, etc
                 },
                 "json"
-            );
+            ).fail(function () {
+                window.location.href = "./login.html";
+            });
+
             fetch(`https://source.unsplash.com/1600x900/?work`).then((res) => {
                 $('#imgcard').prepend(
                     `<img src=${res.url} style='height: 100%; width: 100%; object-fit: contain'>`
