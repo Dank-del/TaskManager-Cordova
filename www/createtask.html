@@ -1,0 +1,89 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet"
+        id="bootstrap-css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#post-form').submit(function(){ return false; })
+
+            $('#create-btn').click(function () {
+                const assignTo = $('#assign-to').val();
+                const taskText = $('#task-text').val();
+
+                if (assignTo == null || assignTo == "" || taskText == null || taskText == "") {
+                    alert("Please fill all the fields");
+                    return;
+                }
+
+                // alert(`Assign to: ${assignTo}, Task text: ${taskText}`);
+                $.post('https://tskman.sayan.org.in/addtask', {
+                    'username': localStorage.getItem('username'),
+                    'password': localStorage.getItem('password'),
+                    'assignTo': assignTo,
+                    'taskText': taskText
+                }, function (data, textStatus) {
+                    console.log(data);
+                    if (textStatus == "success") {
+                        alert("Task created successfully");
+                        window.location.href = "./taskview.html?id=" + data.taskId;
+                    } else {
+                        alert("Task creation failed");
+                    }
+                }).fail(
+                    function (data) {
+                        // console.log(data);
+                        alert("Task creation failed");
+                    }
+                );
+            })
+        })
+    </script>
+    <title>Create New Task</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-8 col-md-offset-2">
+
+                <h1>Create New Task</h1>
+
+                <form method="POST" id="post-form">
+
+                    <div class="form-group">
+                        <label for="assignTo">Assign To <span class="require">*</span> <small>(Username of the person to
+                                assign to)</small></label>
+                        <input id="assign-to" type="text" class="form-control" name="assignTo" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">Task Description <span class="require">*</span></label>
+                        <textarea id="task-text" rows="5" class="form-control" name="description"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <p><span class="require">*</span> - required fields</p>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success" id="create-btn">
+                            Create
+                        </button>
+                        <a href="./tasklist.html" class="btn btn-danger" role="button" aria-pressed="true">Cancel</a>
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+</body>
+
+</html>

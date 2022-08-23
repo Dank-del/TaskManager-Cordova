@@ -14,15 +14,15 @@
             // jquery add event listener for when button is clicked
             console.log('ok');
             $('#logoutBtn').click(function() {
-                alert('You have been logged out');
+                // alert('You have been logged out');
                 localStorage.removeItem('username');
                 localStorage.removeItem('password');
                 window.location.href = "./login.html";
             })
             $.post('https://tskman.sayan.org.in/alltasks',
                 {
-                    "username": "sayan",
-                    "password": "uwu"
+                    "username": localStorage.getItem('username'),
+                    "password": localStorage.getItem('password')
                 }, function (data, textStatus) {
                     if (data !== null || data !== undefined) {
                         data.map((task) => {
@@ -66,7 +66,7 @@
                 <span>Task List</span>
             </div>
             <div class="button-group ">
-                <button name="button" value="create" class="btn btn-primary">Create</button>
+                <button name="button" onclick="window.location.href = './createtask.html'" value="create" class="btn btn-primary">Create</button>
                 <button name="button" id="logoutBtn" class="btn btn-secondary">Logout</button>
             </div>
 

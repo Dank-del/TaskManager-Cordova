@@ -24,8 +24,8 @@
                 commentIds.map(
                     (commentId) => {
                         $.post('https://tskman.sayan.org.in/getcomment', {
-                            "username": "sayan",
-                            "password": "uwu",
+                            "username": localStorage.getItem("username"),
+                            "password": localStorage.getItem("password"),
                             "commentId": commentId
                         }, function (data, textStatus) {
                             if (textStatus == "success") {
@@ -77,13 +77,13 @@
             $.post(
                 'https://tskman.sayan.org.in/task',
                 {
-                    "username": "sayan",
-                    "password": "uwu",
+                    "username": localStorage.getItem("username"),
+                    "password": localStorage.getItem("password"),
                     "taskId": taskId
                 },
                 function (data, textStatus) {
                     if (data !== null || data !== undefined) {
-                        console.log(data);
+                        // console.log(data);
                         // data.IsDone = true;
                         if (data.IsDone === true) {
                             $('#cardsBody').prepend(
@@ -146,8 +146,8 @@
 
             function submitComment(text, img) {
                 $.post('https://tskman.sayan.org.in/addcomment', {
-                    "username": "sayan",
-                    "password": "uwu",
+                    "username": localStorage.getItem("username"),
+                    "password": localStorage.getItem("password"),
                     "taskId": taskId,
                     "comment": text,
                     "image": img
